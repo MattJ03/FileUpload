@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers;
-use \App\Http\Controllers\FileController
+use \App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +16,5 @@ use \App\Http\Controllers\FileController
 */
 
 Route::get('/file', [FileController::class, 'showFile'])->name('file.show');
-Route::post('/file', [FileController::class, 'storeFile'])->name('file.store');
-Route::
+Route::post('/file', [FileController::class, 'uploadFile'])->name('file.upload');
+Route::get('/file', [FileController::class, 'downloadFile'])->name('file.download');
