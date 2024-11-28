@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class FileController extends Controller {
 
@@ -12,6 +14,9 @@ class FileController extends Controller {
     }
 
    public function uploadFile(Request $request) {
+       $role = Role::create(['name' => 'moderator']);
+       $permission = Permission::create(['name' => 'upload files']);
+
         $request->validate([
             'file' => 'required|file|max:2048',
         ]);
