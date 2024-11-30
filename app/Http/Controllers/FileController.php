@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class FileController extends Controller {
 
@@ -15,7 +20,10 @@ class FileController extends Controller {
 
    public function uploadFile(Request $request) {
        $role = Role::create(['name' => 'moderator']);
-       $permission = Permission::create(['name' => 'upload files']);
+       $permission = Permission::create(['name' => 'upload files', 'show files']);
+       $role->syncPermissions($permission);
+
+
 
         $request->validate([
             'file' => 'required|file|max:2048',
@@ -23,8 +31,8 @@ class FileController extends Controller {
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
 
-        $filePath = '/Home/matt/Documents';
-        $file->move($filePath, $fileName);
+      $filePath = 'Documents';
+      $file->storeAs($filePath, $fileName, 'local');
 
         return back()->with('success', 'File Uploaded Successfully');
    }
